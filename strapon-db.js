@@ -1,6 +1,4 @@
 
-const c = console;
-
 export class Database {
   constructor(dbName, schema) {
     this.schema = schema
@@ -170,28 +168,9 @@ export class Database {
 }
 
 /*
-  IndexDb allows versioning. It would be a shame to lose that, but we also want one description of the model.
-
-  We tap into that by 
-  
-  The idea is that we define the stores and relationships once.
-
-  
-  or:
-    db.getParent('table1', 'table2', record)
-    db.getChildren('table1', 'table2', record)
-    db.getRelated('table1', 'table2', record) // many to many
-    db.setParent('table1', 'table2', record, parent)
-    db.link('table1', 'table2', record1, record2)
-    db.unlink('table1', 'table2', record1, record2)
-
-    The many__many tables will have predictable names.
-
-    Need to ensure we can wrap multiple in a transaction.
-
 
 May not want to load everything in memory, e.g. child objects.
-But once a specific query has been called, e.g. getChildren of x, then so long as all other changes are cached
+But once a specific query has been called, e.g. getChildren of x, then so long as all other changes are cached.
 
 Todo:
   Make a generic backend agnostic CachedDatabase on which we must implement a wrap method
@@ -309,6 +288,7 @@ class SchemaUpgrader {
     store.createIndex(store2, this.schema.getFkName(store2));
   }
 }
+
 
 export function deleteIdb(dbName) {
   indexedDB.deleteDatabase(dbName)
