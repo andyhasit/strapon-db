@@ -1,10 +1,10 @@
 {
   "name": "strapon-db",
   "version": "1.0.0",
-  "description": "Strap functions onto IndexedDB!",
+  "description": "Strap your own functions onto IndexedDB!",
   "main": "strapon-db.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/andyhasit/strapon-db#readme",
   "devDependencies": {
+    "babel-preset-env": "^1.7.0",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.4.0",
     "gulp-run": "^1.7.1",
