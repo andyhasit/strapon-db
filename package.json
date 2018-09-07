@@ -1,0 +1,26 @@
+{
+  "name": "strapon-db",
+  "version": "1.0.0",
+  "description": "Strap functions onto IndexedDB!",
+  "main": "strapon-db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyhasit/strapon-db.git"
+  },
+  "author": "Andrew Buchan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andyhasit/strapon-db/issues"
+  },
+  "homepage": "https://github.com/andyhasit/strapon-db#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-run": "^1.7.1",
+    "gulp-uglifyes": "^0.1.3",
+    "jest": "^23.5.0"
+  }
+}
