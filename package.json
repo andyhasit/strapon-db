@@ -1,7 +1,7 @@
 {
   "name": "strapon-db",
   "version": "1.0.0",
-  "description": "Strap your own functions onto IndexedDB!",
+  "description": "Strap dynamically named functions onto IndexedDB!",
   "main": "strapon-db.js",
   "scripts": {
     "test": "jest"

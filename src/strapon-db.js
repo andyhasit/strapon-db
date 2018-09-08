@@ -1,19 +1,25 @@
 
 export class Database {
-  constructor(dbName, schema) {
-    this.schema = schema
+  constructor(dbName, schemaArg) {
+    if (schemaArg instanceof Schema) {
+      this.schema = schemaArg
+    } else {
+      let schema = new Schema()
+      schema.addVersion(schemaArg)
+      this.schema = schema
+    }
     this._caches = {}
     this._fullyLoaded = {}
     this._dbp = new Promise((resolve, reject) => {
-      let openreq = indexedDB.open(dbName, schema.getVersion())
+      let openreq = indexedDB.open(dbName, this.schema.getVersion())
       openreq.onerror = () => reject(openreq.error)
       openreq.onsuccess = () => {
-        schema.createFunctions(this)
+        this.schema.createFunctions(this)
         resolve(openreq.result)
       }
       openreq.onupgradeneeded = (event) => {
         // First time setup: create an empty object store
-        schema.upgrade(openreq.result, event.oldVersion)
+        this.schema.upgrade(openreq.result, event.oldVersion)
       }
     })
   }
@@ -61,6 +67,7 @@ export class Database {
     let record = this._cacheOf(store)[id]
     if (record == undefined) {
       return this._wrap(store, 'get', undefined, id).then(record => {
+        //TODO: transform
         this._cacheOf(store)[id] = record
         return record
       })
@@ -75,6 +82,7 @@ export class Database {
       return this._wrap(store, 'getAll').then(records => {
         let cache = this._cacheOf(store)
         this._fullyLoaded[store] = true
+        //TODO: transform
         records.map(record => cache[record.id] = record)
         return records
       })
@@ -91,7 +99,6 @@ export class Database {
   _fetchOne(store, criteria) {
 
     // UNTESTED
-    //Todo: add query caching
     return this._dbp.then(db => new Promise((resolve, reject) => {
       let records = []
       let cursorTrans = db.transaction(store).objectStore(store).openCursor()
@@ -113,6 +120,7 @@ export class Database {
     }))
   }
   filter(store, criteria) {
+    // criteria must be an object
     //Todo: add query caching
     return this._dbp.then(db => new Promise((resolve, reject) => {
       let records = []
@@ -149,7 +157,7 @@ export class Database {
     return this._dbp.then(db => new Promise((resolve, reject) => {
       let transaction = db.transaction(childStore)
       let request = transaction.objectStore(childStore).index(parentStore).get(parentRecord.id)
-      transaction.oncomplete = () => resolve(request.result)
+      transaction.oncomplete = () => resolve(request.result) // TODO: expand to use cache
       transaction.onabort = transaction.onerror = () => reject(transaction.error)
     }))
   }
