@@ -221,11 +221,11 @@ class SchemaFunctionBuilder {
   }
   addStore(name) {
     let capitalizedName = this.capitalize(name);
-    ['put', 'del', 'get', 'getAll'].forEach(method => {
-      this.target[method + capitalizedName] = function(arg) {
-        return this[method](name, arg)
-      }
-    })
+    let pluralizedName = capitalizedName + 's';
+    this.target['put' + capitalizedName] = function(arg) {return this['put'](name, arg)}
+    this.target['del' + capitalizedName] = function(arg) {return this['del'](name, arg)}
+    this.target['get' + capitalizedName] = function(arg) {return this['get'](name, arg)}
+    this.target['getAll' + pluralizedName] = function(arg) {return this['getAll'](name, arg)}
   }
   oneToMany(parentStore, childStore) {
     let parentCaps = this.capitalize(parentStore);
@@ -262,7 +262,12 @@ class SchemaFunctionBuilder {
     this.target['link' + store2Caps + 'to' + store1Caps] = function(store2Record, store1Record) {
       db.link(store1, store2, store1Record, store2Record)
     }
-    //TODO: test above, then add unlink
+    this.target['unlink' + store1Caps + 'From' + store2Caps] = function(store1Record, store2Record) {
+      db.link(store1, store2, store1Record, store2Record)
+    }
+    this.target['unlink' + store2Caps + 'From' + store1Caps] = function(store2Record, store1Record) {
+      db.link(store1, store2, store1Record, store2Record)
+    }
   }
 }
 

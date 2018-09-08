@@ -18,6 +18,7 @@
   "homepage": "https://github.com/andyhasit/strapon-db#readme",
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
+    "fake-indexeddb": "^2.0.4",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.4.0",
     "gulp-run": "^1.7.1",
